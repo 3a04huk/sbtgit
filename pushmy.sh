@@ -18,14 +18,19 @@ touch ".git/sbt.lock"
 echo $SBT_RELEASE > ".git/sbt.lock"
 echo $SBT_VER     >> ".git/sbt.lock"
 
+coreeditor=$(git config core.editor)
+
+git config core.editor \"$(dirname $0)\/commit.sh\"
+
 #Git sir!
 files=$(git status -s | grep "${SBT_RELEASE}" | grep -E "^[ ?]" | sed 's/^...//')
 if  test -n "$files" 
 then
 echo test good
 	git add $(grep "<sbt.svc.version type=\"string\">${SBT_VER}</sbt.svc.version>" -rl ${files} )
-	git status --porcelain -uno | grep -v '^[[:blank:]]' > .git/current_commit.tmp
-	git commit -F .git/current_commit.tmp
+	#git status --porcelain -uno | grep -v '^[[:blank:]]' > .git/current_commit.tmp
+	#git commit -F .git/current_commit.tmp
+	git commit
 	git push origin master
 fi
 #grep "<sbt.svc.version type=\"string\">${SBT_VER}</sbt.svc.version>" -rl ${files}
@@ -33,5 +38,6 @@ fi
 #git status --porcelain -uno | grep -v '^[[:blank:]]' > .git/current_commit.tmp
 #git commit -F .git/current_commit.tmp
 #git push origin master
+git config core.editor "$coreeditor"
 rm ".git/sbt.lock"
 exit 0
