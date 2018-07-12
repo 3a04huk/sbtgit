@@ -1,0 +1,14 @@
+<settings>
+  <profiles>
+    <profile>
+      <id>inject-application-home</id>
+      <properties>
+	<jiraid>${jiraid}</jiraid>
+      </properties>
+    </profile>
+  </profiles>
+ 
+  <activeProfiles>
+    <activeProfile>inject-application-home</activeProfile>
+  </activeProfiles>
+</settings>
